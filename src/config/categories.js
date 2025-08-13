@@ -231,16 +231,65 @@ export const generateImagePaths = (category) => {
       break;
       
     case 'paintings':
-      // Use actual filenames from the directory listing
-      const paintingFiles = [
-        '01. Mona Lisa by Leonardo Da Vinci.avif',
-        '02. Lady with an Ermine by Leonardo da Vinci.avif',
-        '03. Girl with a Pearl Earring by Johannes Vermeer.avif'
-        // Add more as needed based on actual files
-      ];
-      paintingFiles.forEach(file => {
-        images.push(`${category.path}${file}`);
-      });
+      // Generate all 50 painting files in numerical order
+      for (let i = 1; i <= 50; i++) {
+        const num = i.toString().padStart(2, '0');
+        // Handle special cases for files with different naming patterns
+        let filename;
+        if (i === 1) filename = '01. Mona Lisa by Leonardo Da Vinci.avif';
+        else if (i === 2) filename = '02. Lady with an Ermine by Leonardo da Vinci.avif';
+        else if (i === 3) filename = '03. Girl with a Pearl Earring by Johannes Vermeer.avif';
+        else if (i === 4) filename = '04. Las Meninas by Diego Velázquez.avif';
+        else if (i === 5) filename = '05. The Storm on the Sea of Galilee by Rembrandt.avif';
+        else if (i === 6) filename = '06. The Woman with a Parasol by Claude Oscar Monet.avif';
+        else if (i === 7) filename = '07. Dante And Virgil In Hell by William-Adolphe Bouguereau.avif';
+        else if (i === 8) filename = '08. Napoleon Crossing the Alps by Jacques-Louis David.avif';
+        else if (i === 9) filename = '09. St. George and the Dragon by Raphael Raffaello.avif';
+        else if (i === 10) filename = '10. The Swing by Jean-Honoré Fragonard.avif';
+        else if (i === 11) filename = '11. When Will You Marry by Paul Gauguin.avif';
+        else if (i === 12) filename = '12. View of Toledo by El Greco.avif';
+        else if (i === 13) filename = '13. Wanderer above the Sea of Fog by Caspar David Friedrich.avif';
+        else if (i === 14) filename = '14. The Scream by Edvard Munch.avif';
+        else if (i === 15) filename = '15. The Kiss by Gustav Klimt.avif';
+        else if (i === 16) filename = '16. The Arnolfini Portrait by Jan van Eyck.avif';
+        else if (i === 17) filename = '17. American Gothic by Grant Wood.avif';
+        else if (i === 18) filename = '18. Battle Of Issus by Albrecht Altdorfer.avif';
+        else if (i === 19) filename = '19. Bacchus by Caravaggio.avif';
+        else if (i === 20) filename = '20. La Virgen de los Lirios by Willian-Adolphe Bouguereau.avif';
+        else if (i === 21) filename = '21. The Starry Night By Vincent Van Gogh.avif';
+        else if (i === 22) filename = '22. The Gulf Stream by Winslow Homer .avif';
+        else if (i === 23) filename = '23. The Birth of Venus by Sandro Botticelli.avif';
+        else if (i === 24) filename = '24. Stag Night At Sharkeys by George Bellows.avif';
+        else if (i === 25) filename = '25. The Raft of the Medusa by Théodore Géricault.avif';
+        else if (i === 26) filename = '26. The Triumph of Venus by Francois Boucher.avif';
+        else if (i === 27) filename = '27. A Bar at the Folies-Bergère by Édouard Manet.avif';
+        else if (i === 28) filename = '28. A Cotton Office In New Orleans by Edgar Degas.avif';
+        else if (i === 29) filename = '29. Bal du moulin de la Galette by Pierre-Auguste Renoir.avif';
+        else if (i === 30) filename = '30. A Sunday Afternoon on the Island of La Grande Jatte by Georges Seurat.avif';
+        else if (i === 31) filename = '31. Luncheon of the Boating Party by Pierre-Auguste Renoir.avif';
+        else if (i === 32) filename = '32. Le Déjeuner sur l\'herbe by Édouard Manet .avif';
+        else if (i === 33) filename = '33. Liberty Leading the People by Eugène Delacroix.avif';
+        else if (i === 34) filename = '34. The Card Players by Paul Cézanne.avif';
+        else if (i === 35) filename = '35. Wheat Field with Cypresses at the Haude Galline near Eygalieres by Vincent van Gogh.avif';
+        else if (i === 36) filename = '36. The Third of May 1808 by Francisco Goya.avif';
+        else if (i === 37) filename = '37. The Sleeping Gypsy by Henri Rousseau.avif';
+        else if (i === 38) filename = '38. The Night Watch by Rembrandt.avif';
+        else if (i === 39) filename = '39. The Lady Of Shalott by John William Waterhouse.avif';
+        else if (i === 40) filename = '40. The Harvesters by Pieter Bruegel the Elder.avif';
+        else if (i === 41) filename = '41. Boulevard Montmartre Spring by Camille Pissarro.avif';
+        else if (i === 42) filename = '42. Impression, Sunrise by Claude Monet.avif';
+        else if (i === 43) filename = '43. Paris Street In Rainy Weather by Gustave Caillebotte.avif';
+        else if (i === 44) filename = '44. Saint Jerome Writing by Caravaggio.avif';
+        else if (i === 45) filename = '45. Breezing Up also known as A Fair Wind by Winslow Homer.avif';
+        else if (i === 46) filename = '46. The Last Supper by Leonardo da Vinci.avif';
+        else if (i === 47) filename = '47. Nighthawks by Edward Hopper.avif';
+        else if (i === 48) filename = '48. Grande Odalisque by Jean Auguste Dominique Ingres.avif';
+        else if (i === 49) filename = '49. The Naked Maja by Francisco de Goya y Lucientes.avif';
+        else if (i === 50) filename = '50. The Creation Of Adam by Michelangelo.avif';
+        else filename = `${num}. Painting ${i}.avif`; // Fallback
+        
+        images.push(`${category.path}${filename}`);
+      }
       break;
       
     case 'religion':
