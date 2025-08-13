@@ -20,7 +20,7 @@ export const categories = [
     name: 'Among Us',
     description: 'Creative Among Us themed digital artworks',
     path: 'among-us/',
-    previewImage: 'among-us/among-01',
+    previewImage: 'among-us/AMONG_01',
     itemCount: 60
   },
   {
@@ -28,7 +28,7 @@ export const categories = [
     name: 'Artes Psicodélicas',
     description: 'Psychedelic art collections with vibrant patterns',
     path: 'psicodelicas/',
-    previewImage: 'psicodelicas/kit-psicodelico-01',
+    previewImage: 'psicodelicas/KIT_PSICODELICO_01',
     itemCount: 60
   },
   {
@@ -36,7 +36,7 @@ export const categories = [
     name: 'Collage',
     description: 'Mixed media collage artworks',
     path: 'collage/',
-    previewImage: 'collage/colagem-01',
+    previewImage: 'collage/COLAGEM_01',
     itemCount: 41
   },
   {
@@ -44,7 +44,7 @@ export const categories = [
     name: 'DC Heroes',
     description: 'DC Comics superhero digital art collection',
     path: 'dc-heroes/',
-    previewImage: 'dc-heroes/herois-001',
+    previewImage: 'dc-heroes/HEROIS_001',
     itemCount: 99
   },
   {
@@ -52,7 +52,7 @@ export const categories = [
     name: 'Digital Illustration',
     description: 'Modern digital illustrations and artwork',
     path: 'digital-illustration/',
-    previewImage: 'digital-illustration/id-001',
+    previewImage: 'digital-illustration/ID_001',
     itemCount: 155
   },
   {
@@ -60,7 +60,7 @@ export const categories = [
     name: 'Doodle Art',
     description: 'Hand-drawn doodle style artwork',
     path: 'doodle-art/',
-    previewImage: 'doodle-art/doodle-01',
+    previewImage: 'doodle-art/DOODLE_01',
     itemCount: 42
   },
   {
@@ -68,7 +68,7 @@ export const categories = [
     name: 'Esoteric',
     description: 'Mystical and esoteric themed artwork',
     path: 'esoteric/',
-    previewImage: 'esoteric/esotericas-001',
+    previewImage: 'esoteric/ESOTERICAS_001',
     itemCount: 196
   },
   {
@@ -76,7 +76,7 @@ export const categories = [
     name: 'League of Legends',
     description: 'League of Legends game-inspired art',
     path: 'league-of-legends/',
-    previewImage: 'league-of-legends/lol-01',
+    previewImage: 'league-of-legends/LOL_01',
     itemCount: 58
   },
   {
@@ -84,7 +84,7 @@ export const categories = [
     name: 'Mortal Kombat',
     description: 'Fighting game themed digital art',
     path: 'mortal-kombat/',
-    previewImage: 'mortal-kombat/mortal-01',
+    previewImage: 'mortal-kombat/MORTAL_01',
     itemCount: 41
   },
   {
@@ -92,7 +92,7 @@ export const categories = [
     name: 'Motivational',
     description: 'Inspirational quotes and motivational artwork',
     path: 'motivational/',
-    previewImage: 'motivational/frases-30',
+    previewImage: 'motivational/FRASES_30',
     itemCount: 115
   },
   {
@@ -108,16 +108,16 @@ export const categories = [
     name: 'Religion',
     description: 'Religious and spiritual themed artwork',
     path: 'religion/',
-    previewImage: 'religion/fth-001',
-    itemCount: 103
+    previewImage: 'religion/FTH_001',
+    itemCount: 100
   },
   {
     id: 'space',
     name: 'Space',
     description: 'Cosmic and space-themed digital art',
     path: 'space/',
-    previewImage: 'space/space-001',
-    itemCount: 60
+    previewImage: 'space/SPACE_001',
+    itemCount: 134
   }
 ];
 
@@ -255,7 +255,7 @@ export const generateImagePaths = (categoryId) => {
       // Generate 60 psychedelic art files
       for (let i = 1; i <= 60; i++) {
         const num = i.toString().padStart(2, '0');
-        images.push(`${category.path}kit-psicodelico-${num}`);
+        images.push(`${category.path}KIT_PSICODELICO_${num}`);
       }
       break;
 
@@ -273,10 +273,82 @@ export const generateImagePaths = (categoryId) => {
       break;
       
     case 'space':
-      // Generate 60 space art files
-      for (let i = 1; i <= 60; i++) {
+      // Generate 134 space art files (based on the actual count)
+      for (let i = 1; i <= 134; i++) {
         const num = i.toString().padStart(3, '0');
-        images.push(`${category.path}space-${num}`);
+        images.push(`${category.path}SPACE_${num}`);
+      }
+      break;
+      
+    case 'among-us':
+      // Generate 60 among us files
+      for (let i = 1; i <= 60; i++) {
+        const num = i.toString().padStart(2, '0');
+        images.push(`${category.path}AMONG_${num}`);
+      }
+      break;
+      
+    case 'collage':
+      // Generate 41 collage files
+      for (let i = 1; i <= 41; i++) {
+        const num = i.toString().padStart(2, '0');
+        images.push(`${category.path}COLAGEM_${num}`);
+      }
+      break;
+      
+    case 'dc-heroes':
+      // Generate 99 DC heroes files
+      for (let i = 1; i <= 99; i++) {
+        const num = i.toString().padStart(3, '0');
+        images.push(`${category.path}HEROIS_${num}`);
+      }
+      break;
+      
+    case 'digital-illustration':
+      // Generate 155 digital illustration files
+      for (let i = 1; i <= 155; i++) {
+        const num = i.toString().padStart(3, '0');
+        images.push(`${category.path}ID_${num}`);
+      }
+      break;
+      
+    case 'doodle-art':
+      // Generate 42 doodle art files
+      for (let i = 1; i <= 42; i++) {
+        const num = i.toString().padStart(2, '0');
+        images.push(`${category.path}DOODLE_${num}`);
+      }
+      break;
+      
+    case 'esoteric':
+      // Generate 196 esoteric files
+      for (let i = 1; i <= 196; i++) {
+        const num = i.toString().padStart(3, '0');
+        images.push(`${category.path}ESOTERICAS_${num}`);
+      }
+      break;
+      
+    case 'league-of-legends':
+      // Generate 58 League of Legends files
+      for (let i = 1; i <= 58; i++) {
+        const num = i.toString().padStart(2, '0');
+        images.push(`${category.path}LOL_${num}`);
+      }
+      break;
+      
+    case 'mortal-kombat':
+      // Generate 41 mortal kombat files
+      for (let i = 1; i <= 41; i++) {
+        const num = i.toString().padStart(2, '0');
+        images.push(`${category.path}MORTAL_${num}`);
+      }
+      break;
+      
+    case 'religion':
+      // Generate 100 religion files
+      for (let i = 1; i <= 100; i++) {
+        const num = i.toString().padStart(3, '0');
+        images.push(`${category.path}FTH_${num}`);
       }
       break;
       
