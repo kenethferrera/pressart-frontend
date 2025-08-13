@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import LazyImage from './LazyImage';
+import { generateImageKitUrl } from '../config/categories';
 
 const CategoryCard = ({ category, index = 0 }) => {
   const isCustomDecor = category.isCustom;
@@ -20,7 +21,7 @@ const CategoryCard = ({ category, index = 0 }) => {
         {/* Image Container */}
         <div className="relative h-48 overflow-hidden">
           <LazyImage
-            src={category.previewImage}
+            src={generateImageKitUrl(category.previewImage, { width: 400, height: 300, quality: 80 })}
             alt={category.name}
             className="w-full h-full transition-transform duration-300 group-hover:scale-110"
           />

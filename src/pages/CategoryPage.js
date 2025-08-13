@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { getCategoryById, generateImagePaths, generateItemCode } from '../config/categories';
+import { getCategoryById, generateImagePaths, generateItemCode, generateImageKitUrl } from '../config/categories';
 import SimpleImageTest from '../components/SimpleImageTest';
 import ImageModal from '../components/ImageModal';
 // import LazyImage from '../components/LazyImage';

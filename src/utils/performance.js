@@ -79,6 +79,47 @@ export const throttle = (func, limit) => {
   };
 };
 
+// Performance monitor class
+export class PerformanceMonitor {
+  constructor() {
+    this.metrics = {
+      imageLoadTimes: [],
+      pageLoadTimes: [],
+      errors: []
+    };
+  }
+
+  logImageLoadTime(imageSrc, loadTime) {
+    this.metrics.imageLoadTimes.push({ imageSrc, loadTime, timestamp: Date.now() });
+    console.log(`Image loaded in ${loadTime.toFixed(2)}ms:`, imageSrc);
+  }
+
+  logPageLoadTime(loadTime) {
+    this.metrics.pageLoadTimes.push({ loadTime, timestamp: Date.now() });
+    console.log(`Page loaded in ${loadTime.toFixed(2)}ms`);
+  }
+
+  logError(error, context) {
+    this.metrics.errors.push({ error, context, timestamp: Date.now() });
+    console.error('Performance error:', error, context);
+  }
+
+  getMetrics() {
+    return this.metrics;
+  }
+
+  clearMetrics() {
+    this.metrics = {
+      imageLoadTimes: [],
+      pageLoadTimes: [],
+      errors: []
+    };
+  }
+}
+
+// Create a default instance
+export const performanceMonitor = new PerformanceMonitor();
+
 // React performance hooks
 export const usePerformanceOptimization = () => {
   const shouldReduceAnimations = () => {

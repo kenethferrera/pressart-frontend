@@ -1,116 +1,123 @@
 // Category definitions for the digital art store
+
+// Development mode flag - set to false to use Cloudinary, true for local images
+const USE_LOCAL_IMAGES = false; // Changed to false to use Cloudinary
+
+// Helper function to get image path based on environment
+const getImagePath = (imagePath) => {
+  if (USE_LOCAL_IMAGES) {
+    // Use local images for development
+    return `/Images/${imagePath}.avif`;
+  } else {
+    // Use ImageKit for production
+    return imagePath;
+  }
+};
+
 export const categories = [
   {
     id: 'among-us',
     name: 'Among Us',
     description: 'Creative Among Us themed digital artworks',
-    path: '/Images/Among Us/',
-    previewImage: '/Images/Among Us/AMONG 01.avif',
+    path: 'among-us/',
+    previewImage: 'among-us/among-01',
     itemCount: 60
   },
   {
     id: 'artes-psicodelicas',
     name: 'Artes Psicodélicas',
     description: 'Psychedelic art collections with vibrant patterns',
-    path: '/Images/Artes Psicodélicas/',
-    previewImage: '/Images/Artes Psicodélicas/Kit Psicodélico 1.avif',
+    path: 'psicodelicas/',
+    previewImage: 'psicodelicas/kit-psicodelico-01',
     itemCount: 60
   },
   {
     id: 'collage',
     name: 'Collage',
     description: 'Mixed media collage artworks',
-    path: '/Images/Collage/',
-    previewImage: '/Images/Collage/COLAGEM-01.avif',
+    path: 'collage/',
+    previewImage: 'collage/colagem-01',
     itemCount: 41
   },
   {
     id: 'dc-heroes',
     name: 'DC Heroes',
     description: 'DC Comics superhero digital art collection',
-    path: '/Images/DC Heroes/',
-    previewImage: '/Images/DC Heroes/HEROIS 001.avif',
+    path: 'dc-heroes/',
+    previewImage: 'dc-heroes/herois-001',
     itemCount: 99
   },
   {
     id: 'digital-illustration',
     name: 'Digital Illustration',
     description: 'Modern digital illustrations and artwork',
-    path: '/Images/Digital Illustration/',
-    previewImage: '/Images/Digital Illustration/ID_001.avif',
+    path: 'digital-illustration/',
+    previewImage: 'digital-illustration/id-001',
     itemCount: 155
   },
   {
     id: 'doodle-art',
     name: 'Doodle Art',
     description: 'Hand-drawn doodle style artwork',
-    path: '/Images/Doodle Art/',
-    previewImage: '/Images/Doodle Art/DOODLE_01.avif',
+    path: 'doodle-art/',
+    previewImage: 'doodle-art/doodle-01',
     itemCount: 42
   },
   {
     id: 'esoteric',
     name: 'Esoteric',
     description: 'Mystical and esoteric themed artwork',
-    path: '/Images/Esoteric/',
-    previewImage: '/Images/Esoteric/ESOTERICAS_001.avif',
+    path: 'esoteric/',
+    previewImage: 'esoteric/esotericas-001',
     itemCount: 196
   },
   {
     id: 'league-of-legends',
     name: 'League of Legends',
     description: 'League of Legends game-inspired art',
-    path: '/Images/League of Legends/',
-    previewImage: '/Images/League of Legends/LOL 01.avif',
+    path: 'league-of-legends/',
+    previewImage: 'league-of-legends/lol-01',
     itemCount: 58
   },
   {
     id: 'mortal-kombat',
     name: 'Mortal Kombat',
     description: 'Fighting game themed digital art',
-    path: '/Images/Mortal Kombat/',
-    previewImage: '/Images/Mortal Kombat/MORTAL 01.avif',
+    path: 'mortal-kombat/',
+    previewImage: 'mortal-kombat/mortal-01',
     itemCount: 41
   },
   {
     id: 'motivational',
     name: 'Motivational',
     description: 'Inspirational quotes and motivational artwork',
-    path: '/Images/Motavational/',
-    previewImage: '/Images/Motavational/FRASES 30.avif',
+    path: 'motivational/',
+    previewImage: 'motivational/frases-30',
     itemCount: 115
   },
   {
     id: 'paintings',
     name: 'Paintings',
     description: 'Classic and modern painting reproductions',
-    path: '/Images/Paintings/',
-    previewImage: '/Images/Paintings/01. Mona Lisa by Leonardo Da Vinci.avif',
+    path: 'paintings/',
+    previewImage: 'paintings/01-mona-lisa-by-leonardo-da-vinci',
     itemCount: 50
   },
   {
     id: 'religion',
     name: 'Religion',
     description: 'Religious and spiritual themed artwork',
-    path: '/Images/Religion/',
-    previewImage: '/Images/Religion/FTH_001.avif',
+    path: 'religion/',
+    previewImage: 'religion/fth-001',
     itemCount: 103
   },
   {
     id: 'space',
     name: 'Space',
     description: 'Cosmic and space-themed digital art',
-    path: '/Images/Space/',
-    previewImage: '/Images/Space/SPACE_001.avif',
-    itemCount: 134
-  },
-  {
-    id: 'custom-decor',
-    name: 'Custom Decor',
-    description: 'Request custom artwork for your space',
-    path: '/custom-decor',
-    previewImage: '/custom-decor-icon.svg',
-    isCustom: true
+    path: 'space/',
+    previewImage: 'space/space-001',
+    itemCount: 60
   }
 ];
 
@@ -119,255 +126,171 @@ export const getCategoryById = (id) => {
   return categories.find(category => category.id === id);
 };
 
-// Helper function to generate image paths for a category
-export const generateImagePaths = (category) => {
-  if (category.isCustom) return [];
+// Helper function to generate item code
+export const generateItemCode = (filename, categoryId) => {
+  const category = getCategoryById(categoryId);
+  if (!category) return 'UNKNOWN-01';
+
+  const prefix = categoryId.toUpperCase().replace('-', '');
+  const numberMatch = filename.match(/(\d+)/);
+  const number = numberMatch ? parseInt(numberMatch[1]) : 1;
   
+  return `${prefix}-${number.toString().padStart(2, '0')}`;
+};
+
+// Helper function to generate ImageKit URL or local image path
+export const generateImageKitUrl = (imagePath, options = {}) => {
+  // Development mode flag - set to false to use Cloudinary, true for local images
+  const USE_LOCAL_IMAGES = false; // Changed to false to use Cloudinary
+  
+  if (USE_LOCAL_IMAGES) {
+    // Use local images for development
+    return `/Images/${imagePath}.avif`;
+  } else {
+    // Use Cloudinary for production
+    const {
+      width = 'auto',
+      height = 'auto',
+      quality = 'auto',
+      format = 'auto',
+      crop = 'fill',
+      gravity = 'auto'
+    } = options;
+
+    // Cloudinary configuration
+    const cloudName = 'djdbzgoxk'; // Your Cloudinary cloud name
+    const baseUrl = `https://res.cloudinary.com/${cloudName}/image/upload`;
+    let transformations = [];
+    
+    if (width !== 'auto') transformations.push(`w_${width}`);
+    if (height !== 'auto') transformations.push(`h_${height}`);
+    if (quality !== 'auto') transformations.push(`q_${quality}`);
+    if (format !== 'auto') transformations.push(`f_${format}`);
+    if (crop !== 'fill') transformations.push(`c_${crop}`);
+    if (gravity !== 'auto') transformations.push(`g_${gravity}`);
+    
+    const transformString = transformations.length > 0 ? `/${transformations.join(',')}` : '';
+    
+    // For Cloudinary, we need to use the public ID (filename without folder path)
+    // Extract just the filename from the path
+    const publicId = imagePath.split('/').pop();
+    
+    // After renaming files in Cloudinary, we can use the public ID directly
+    // No more mapping needed!
+    return `${baseUrl}${transformString}/${publicId}`;
+  }
+};
+
+// Helper function to generate image paths for a category
+export const generateImagePaths = (categoryId) => {
+  const category = getCategoryById(categoryId);
+  if (!category) return [];
+
   const images = [];
   
-  // Special handling for different naming patterns
-  switch (category.id) {
-    case 'among-us':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(2, '0');
-        images.push(`${category.path}AMONG ${num}.avif`);
-      }
-      break;
-      
-    case 'artes-psicodelicas':
-      // Generate images in the exact order they appear in the folder
-      // First all main kit files, then all parte files
-      const allPsychedelicFiles = [];
-      
-      // Add main kit files first (Kit Psicodélico 1.avif, Kit Psicodélico 2.avif, etc.)
-      for (let kit = 1; kit <= 18; kit++) {
-        allPsychedelicFiles.push(`${category.path}Kit Psicodélico ${kit}.avif`);
-      }
-      
-      // Then add all parte files in order
-      const partCounts = {
-        1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 2, 9: 2,
-        10: 3, 11: 3, 12: 3, 13: 3, 14: 3, 15: 3, 16: 3, 17: 4, 18: 2
-      };
-      
-      for (let kit = 1; kit <= 18; kit++) {
-        for (let part = 1; part <= (partCounts[kit] || 3); part++) {
-          allPsychedelicFiles.push(`${category.path}Kit Psicodélico ${kit} - Parte ${part}.avif`);
-        }
-      }
-      
-      // Sort to match actual folder order (alphabetical)
-      allPsychedelicFiles.sort((a, b) => {
-        const fileA = a.split('/').pop();
-        const fileB = b.split('/').pop();
-        return fileA.localeCompare(fileB, undefined, { numeric: true, sensitivity: 'base' });
-      });
-      
-      images.push(...allPsychedelicFiles);
-      break;
-      
-    case 'collage':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(2, '0');
-        images.push(`${category.path}COLAGEM-${num}.avif`);
-      }
-      break;
-      
-    case 'dc-heroes':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(3, '0');
-        images.push(`${category.path}HEROIS ${num}.avif`);
-      }
-      break;
-      
-    case 'digital-illustration':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(3, '0');
-        images.push(`${category.path}ID_${num}.avif`);
-      }
-      break;
-      
-    case 'doodle-art':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(2, '0');
-        images.push(`${category.path}DOODLE_${num}.avif`);
-      }
-      break;
-      
-    case 'esoteric':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(3, '0');
-        images.push(`${category.path}ESOTERICAS_${num}.avif`);
-      }
-      break;
-      
-    case 'league-of-legends':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(2, '0');
-        images.push(`${category.path}LOL ${num}.avif`);
-      }
-      break;
-      
-    case 'mortal-kombat':
-      for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(2, '0');
-        images.push(`${category.path}MORTAL ${num}.avif`);
-      }
-      break;
-      
-    case 'motivational':
-      // Generate all motivational images and sort them properly
-      const motivationalImages = [];
-      for (let i = 30; i <= 144; i++) {
-        motivationalImages.push(`${category.path}FRASES ${i}.avif`);
-      }
-      // Sort numerically to match folder order
-      motivationalImages.sort((a, b) => {
-        const numA = parseInt(a.match(/FRASES (\d+)/)[1]);
-        const numB = parseInt(b.match(/FRASES (\d+)/)[1]);
-        return numA - numB;
-      });
-      images.push(...motivationalImages);
-      break;
-      
+  switch (categoryId) {
     case 'paintings':
       // Generate all 50 painting files in numerical order
       for (let i = 1; i <= 50; i++) {
         const num = i.toString().padStart(2, '0');
         // Handle special cases for files with different naming patterns
         let filename;
-        if (i === 1) filename = '01. Mona Lisa by Leonardo Da Vinci.avif';
-        else if (i === 2) filename = '02. Lady with an Ermine by Leonardo da Vinci.avif';
-        else if (i === 3) filename = '03. Girl with a Pearl Earring by Johannes Vermeer.avif';
-        else if (i === 4) filename = '04. Las Meninas by Diego Velázquez.avif';
-        else if (i === 5) filename = '05. The Storm on the Sea of Galilee by Rembrandt.avif';
-        else if (i === 6) filename = '06. The Woman with a Parasol by Claude Oscar Monet.avif';
-        else if (i === 7) filename = '07. Dante And Virgil In Hell by William-Adolphe Bouguereau.avif';
-        else if (i === 8) filename = '08. Napoleon Crossing the Alps by Jacques-Louis David.avif';
-        else if (i === 9) filename = '09. St. George and the Dragon by Raphael Raffaello.avif';
-        else if (i === 10) filename = '10. The Swing by Jean-Honoré Fragonard.avif';
-        else if (i === 11) filename = '11. When Will You Marry by Paul Gauguin.avif';
-        else if (i === 12) filename = '12. View of Toledo by El Greco.avif';
-        else if (i === 13) filename = '13. Wanderer above the Sea of Fog by Caspar David Friedrich.avif';
-        else if (i === 14) filename = '14. The Scream by Edvard Munch.avif';
-        else if (i === 15) filename = '15. The Kiss by Gustav Klimt.avif';
-        else if (i === 16) filename = '16. The Arnolfini Portrait by Jan van Eyck.avif';
-        else if (i === 17) filename = '17. American Gothic by Grant Wood.avif';
-        else if (i === 18) filename = '18. Battle Of Issus by Albrecht Altdorfer.avif';
-        else if (i === 19) filename = '19. Bacchus by Caravaggio.avif';
-        else if (i === 20) filename = '20. La Virgen de los Lirios by Willian-Adolphe Bouguereau.avif';
-        else if (i === 21) filename = '21. The Starry Night By Vincent Van Gogh.avif';
-        else if (i === 22) filename = '22. The Gulf Stream by Winslow Homer .avif';
-        else if (i === 23) filename = '23. The Birth of Venus by Sandro Botticelli.avif';
-        else if (i === 24) filename = '24. Stag Night At Sharkeys by George Bellows.avif';
-        else if (i === 25) filename = '25. The Raft of the Medusa by Théodore Géricault.avif';
-        else if (i === 26) filename = '26. The Triumph of Venus by Francois Boucher.avif';
-        else if (i === 27) filename = '27. A Bar at the Folies-Bergère by Édouard Manet.avif';
-        else if (i === 28) filename = '28. A Cotton Office In New Orleans by Edgar Degas.avif';
-        else if (i === 29) filename = '29. Bal du moulin de la Galette by Pierre-Auguste Renoir.avif';
-        else if (i === 30) filename = '30. A Sunday Afternoon on the Island of La Grande Jatte by Georges Seurat.avif';
-        else if (i === 31) filename = '31. Luncheon of the Boating Party by Pierre-Auguste Renoir.avif';
-        else if (i === 32) filename = '32. Le Déjeuner sur l\'herbe by Édouard Manet .avif';
-        else if (i === 33) filename = '33. Liberty Leading the People by Eugène Delacroix.avif';
-        else if (i === 34) filename = '34. The Card Players by Paul Cézanne.avif';
-        else if (i === 35) filename = '35. Wheat Field with Cypresses at the Haude Galline near Eygalieres by Vincent van Gogh.avif';
-        else if (i === 36) filename = '36. The Third of May 1808 by Francisco Goya.avif';
-        else if (i === 37) filename = '37. The Sleeping Gypsy by Henri Rousseau.avif';
-        else if (i === 38) filename = '38. The Night Watch by Rembrandt.avif';
-        else if (i === 39) filename = '39. The Lady Of Shalott by John William Waterhouse.avif';
-        else if (i === 40) filename = '40. The Harvesters by Pieter Bruegel the Elder.avif';
-        else if (i === 41) filename = '41. Boulevard Montmartre Spring by Camille Pissarro.avif';
-        else if (i === 42) filename = '42. Impression, Sunrise by Claude Monet.avif';
-        else if (i === 43) filename = '43. Paris Street In Rainy Weather by Gustave Caillebotte.avif';
-        else if (i === 44) filename = '44. Saint Jerome Writing by Caravaggio.avif';
-        else if (i === 45) filename = '45. Breezing Up also known as A Fair Wind by Winslow Homer.avif';
-        else if (i === 46) filename = '46. The Last Supper by Leonardo da Vinci.avif';
-        else if (i === 47) filename = '47. Nighthawks by Edward Hopper.avif';
-        else if (i === 48) filename = '48. Grande Odalisque by Jean Auguste Dominique Ingres.avif';
-        else if (i === 49) filename = '49. The Naked Maja by Francisco de Goya y Lucientes.avif';
-        else if (i === 50) filename = '50. The Creation Of Adam by Michelangelo.avif';
-        else filename = `${num}. Painting ${i}.avif`; // Fallback
+        if (i === 1) filename = '01-mona-lisa-by-leonardo-da-vinci';
+        else if (i === 2) filename = '02-lady-with-an-ermine-by-leonardo-da-vinci';
+        else if (i === 3) filename = '03-girl-with-a-pearl-earring-by-johannes-vermeer';
+        else if (i === 4) filename = '04-las-meninas-by-diego-velazquez';
+        else if (i === 5) filename = '05-the-storm-on-the-sea-of-galilee-by-rembrandt';
+        else if (i === 6) filename = '06-the-woman-with-a-parasol-by-claude-oscar-monet';
+        else if (i === 7) filename = '07-dante-and-virgil-in-hell-by-william-adolphe-bouguereau';
+        else if (i === 8) filename = '08-napoleon-crossing-the-alps-by-jacques-louis-david';
+        else if (i === 9) filename = '09-st-george-and-the-dragon-by-raphael-raffaello';
+        else if (i === 10) filename = '10-the-swing-by-jean-honore-fragonard';
+        else if (i === 11) filename = '11-when-will-you-marry-by-paul-gauguin';
+        else if (i === 12) filename = '12-view-of-toledo-by-el-greco';
+        else if (i === 13) filename = '13-wanderer-above-the-sea-of-fog-by-caspar-david-friedrich';
+        else if (i === 14) filename = '14-the-scream-by-edvard-munch';
+        else if (i === 15) filename = '15-the-kiss-by-gustav-klimt';
+        else if (i === 16) filename = '16-the-arnolfini-portrait-by-jan-van-eyck';
+        else if (i === 17) filename = '17-american-gothic-by-grant-wood';
+        else if (i === 18) filename = '18-battle-of-issus-by-albrecht-altdorfer';
+        else if (i === 19) filename = '19-bacchus-by-caravaggio';
+        else if (i === 20) filename = '20-la-virgen-de-los-lirios-by-willian-adolphe-bouguereau';
+        else if (i === 21) filename = '21-the-starry-night-by-vincent-van-gogh';
+        else if (i === 22) filename = '22-the-gulf-stream-by-winslow-homer';
+        else if (i === 23) filename = '23-the-birth-of-venus-by-sandro-botticelli';
+        else if (i === 24) filename = '24-stag-night-at-sharkeys-by-george-bellows';
+        else if (i === 25) filename = '25-the-raft-of-the-medusa-by-theodore-gericault';
+        else if (i === 26) filename = '26-the-triumph-of-venus-by-francois-boucher';
+        else if (i === 27) filename = '27-a-bar-at-the-folies-bergere-by-edouard-manet';
+        else if (i === 28) filename = '28-a-cotton-office-in-new-orleans-by-edgar-degas';
+        else if (i === 29) filename = '29-bal-du-moulin-de-la-galette-by-pierre-auguste-renoir';
+        else if (i === 30) filename = '30-a-sunday-afternoon-on-the-island-of-la-grande-jatte-by-georges-seurat';
+        else if (i === 31) filename = '31-luncheon-of-the-boating-party-by-pierre-auguste-renoir';
+        else if (i === 32) filename = '32-le-dejeuner-sur-lherbe-by-edouard-manet';
+        else if (i === 33) filename = '33-liberty-leading-the-people-by-eugene-delacroix';
+        else if (i === 34) filename = '34-the-card-players-by-paul-cezanne';
+        else if (i === 35) filename = '35-wheat-field-with-cypresses-at-the-haude-galline-near-eygalieres-by-vincent-van-gogh';
+        else if (i === 36) filename = '36-the-third-of-may-1808-by-francisco-goya';
+        else if (i === 37) filename = '37-the-sleeping-gypsy-by-henri-rousseau';
+        else if (i === 38) filename = '38-the-night-watch-by-rembrandt';
+        else if (i === 39) filename = '39-the-lady-of-shalott-by-john-william-waterhouse';
+        else if (i === 40) filename = '40-the-harvesters-by-pieter-bruegel-the-elder';
+        else if (i === 41) filename = '41-boulevard-montmartre-spring-by-camille-pissarro';
+        else if (i === 42) filename = '42-impression-sunrise-by-claude-monet';
+        else if (i === 43) filename = '43-paris-street-in-rainy-weather-by-gustave-caillebotte';
+        else if (i === 44) filename = '44-saint-jerome-writing-by-caravaggio';
+        else if (i === 45) filename = '45-breezing-up-also-known-as-a-fair-wind-by-winslow-homer';
+        else if (i === 46) filename = '46-the-last-supper-by-leonardo-da-vinci';
+        else if (i === 47) filename = '47-nighthawks-by-edward-hopper';
+        else if (i === 48) filename = '48-grande-odalisque-by-jean-auguste-dominique-ingres';
+        else if (i === 49) filename = '49-the-naked-maja-by-francisco-de-goya-y-lucientes';
+        else if (i === 50) filename = '50-the-creation-of-adam-by-michelangelo';
+        else filename = `${num}-painting-${i}`; // Fallback
         
         images.push(`${category.path}${filename}`);
       }
       break;
       
-    case 'religion':
+    case 'artes-psicodelicas':
+      // Generate 60 psychedelic art files
+      for (let i = 1; i <= 60; i++) {
+        const num = i.toString().padStart(2, '0');
+        images.push(`${category.path}kit-psicodelico-${num}`);
+      }
+      break;
+
+    case 'motivational':
+      // Generate motivational images using two patterns:
+      // 1..50 use 'FRASES_X' (no zero-padding), >50 use 'MOTIVATIONAL_XXX'
       for (let i = 1; i <= category.itemCount; i++) {
-        const num = i.toString().padStart(3, '0');
-        images.push(`${category.path}FTH_${num}.avif`);
+        if (i <= 50) {
+          images.push(`${category.path}FRASES_${i}`);
+        } else {
+          const num = i.toString().padStart(3, '0');
+          images.push(`${category.path}MOTIVATIONAL_${num}`);
+        }
       }
       break;
       
     case 'space':
-      // Generate all space images and sort them to match folder order
-      const spaceImages = [];
-      // Add the special file
-      spaceImages.push(`${category.path}536A.avif`);
-      // Add numbered space files
-      for (let i = 1; i <= category.itemCount - 1; i++) {
+      // Generate 60 space art files
+      for (let i = 1; i <= 60; i++) {
         const num = i.toString().padStart(3, '0');
-        spaceImages.push(`${category.path}SPACE_${num}.avif`);
+        images.push(`${category.path}space-${num}`);
       }
-      // Sort to match actual folder order (alphabetical)
-      spaceImages.sort((a, b) => {
-        const fileA = a.split('/').pop();
-        const fileB = b.split('/').pop();
-        return fileA.localeCompare(fileB, undefined, { numeric: true, sensitivity: 'base' });
-      });
-      images.push(...spaceImages);
       break;
       
     default:
-      // Generic pattern
+      // For other categories, generate a basic pattern
       for (let i = 1; i <= category.itemCount; i++) {
         const num = i.toString().padStart(3, '0');
-        images.push(`${category.path}${category.name.toUpperCase()}_${num}.avif`);
+        const prefix = categoryId.replace('-', '');
+        images.push(`${category.path}${prefix}-${num}`);
       }
+      break;
   }
   
   return images;
-};
-
-// Helper function to generate item code from filename
-export const generateItemCode = (filename, categoryId) => {
-  // Get the category info to determine the numbering system
-  const category = getCategoryById(categoryId);
-  if (!category) return `${categoryId.toUpperCase()}-001`;
-  
-  // Create simplified category prefixes
-  const categoryPrefixes = {
-    'among-us': 'AMONG',
-    'artes-psicodelicas': 'PSICODELICAS',
-    'collage': 'COLLAGE',
-    'dc-heroes': 'HEROES',
-    'digital-illustration': 'DIGITAL',
-    'doodle-art': 'DOODLE',
-    'esoteric': 'ESOTERIC',
-    'league-of-legends': 'LOL',
-    'mortal-kombat': 'MORTAL',
-    'motivational': 'MOTIVATIONAL',
-    'paintings': 'PAINTINGS',
-    'religion': 'RELIGION',
-    'space': 'SPACE'
-  };
-  
-  const prefix = categoryPrefixes[categoryId] || categoryId.toUpperCase();
-  
-  // Generate images for this category to get the index
-  const categoryImages = generateImagePaths(category);
-  const imageIndex = categoryImages.findIndex(img => img === filename);
-  
-  if (imageIndex === -1) {
-    // Fallback: try to extract number from filename
-    const numberMatch = filename.match(/(\d+)/);
-    const number = numberMatch ? parseInt(numberMatch[1]) : 1;
-    return `${prefix}-${number.toString().padStart(2, '0')}`;
-  }
-  
-  // Use the index + 1 for the item number
-  const itemNumber = (imageIndex + 1).toString().padStart(2, '0');
-  return `${prefix}-${itemNumber}`;
 };
 
 export default categories;

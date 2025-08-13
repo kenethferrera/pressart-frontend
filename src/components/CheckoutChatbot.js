@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { generateImagePaths, getCategoryById } from '../config/categories';
+import { generateImagePaths, getCategoryById, generateImageKitUrl } from '../config/categories';
 import { useAuth } from '../context/AuthContext';
 import { cartService } from '../services/cartService';
 
@@ -69,7 +69,7 @@ const CheckoutChatbot = () => {
     const imagePath = categoryImages[imageIndex];
     
     return {
-      src: imagePath,
+      src: generateImageKitUrl(imagePath, { width: 400, height: 300, quality: 80 }),
       alt: `${code} - ${category.name}`,
       itemCode: code
     };
@@ -81,7 +81,7 @@ const CheckoutChatbot = () => {
       const buttonWidth = 64;
       const halfButton = buttonWidth / 2; // Half button width for partial visibility
       const newX = window.innerWidth - halfButton; // Position so only half is visible
-      const newY = (window.innerHeight / 2) - 150; // Above middle by 150px
+      const newY = (window.innerHeight / 2) - 200; // Higher up for better visibility
       setPosition({ x: newX, y: newY });
       setIsPositioned(true);
     };
@@ -104,7 +104,7 @@ const CheckoutChatbot = () => {
   }, []);
 
   // Load cart from API or localStorage
-  const loadCart = async () => {
+  const loadCart = useCallback(async () => {
     try {
       if (isAuthenticated()) {
         // Load from API for authenticated users
@@ -126,12 +126,12 @@ const CheckoutChatbot = () => {
       const guestCart = cartService.offline.getCart();
       setCartItems(guestCart || []);
     }
-  };
+  }, [isAuthenticated]);
 
   // Load cart on mount and when authentication changes
   useEffect(() => {
     loadCart();
-  }, [user, isAuthenticated]);
+  }, [loadCart]);
 
   // Listen for login/logout events to sync cart
   useEffect(() => {
@@ -172,7 +172,7 @@ const CheckoutChatbot = () => {
       window.removeEventListener('userLoggedIn', handleUserLogin);
       window.removeEventListener('userLoggedOut', handleUserLogout);
     };
-  }, []);
+  }, [loadCart]);
 
   // Handle code input change
   const handleCodeChange = (e) => {
@@ -419,7 +419,7 @@ const CheckoutChatbot = () => {
             initial={false}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 400 }}
-            className="fixed right-4 top-[38%] transform -translate-y-1/2 w-80 max-w-[90vw] bg-white rounded-lg shadow-2xl border z-50"
+            className="fixed right-4 top-[40%] transform -translate-y-1/2 w-80 max-w-[90vw] bg-white rounded-lg shadow-2xl border z-50"
           >
             {/* Header */}
             <div className="bg-purple-600 text-white p-4 rounded-t-lg">
@@ -461,7 +461,7 @@ const CheckoutChatbot = () => {
             </div>
 
             {/* Content */}
-            <div className="p-4 max-h-96 overflow-y-auto">
+                            <div className="p-4 max-h-[70vh] overflow-y-auto">
               {/* Paste Item Code Section */}
               <div className="mb-3">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -568,7 +568,7 @@ const CheckoutChatbot = () => {
                     </div>
                   </div>
                   
-                  <div className="space-y-2 max-h-40 overflow-y-auto mb-2">
+                  <div className="space-y-2 max-h-80 overflow-y-auto mb-2">
                     {cartItems.map((item) => {
                       const itemId = item._id || item.id;
                       return (
@@ -651,7 +651,7 @@ const CheckoutChatbot = () => {
                     </div>
                   )}
                   
-                  <div className="border-t pt-2">
+                  <div className="border-t pt-2 sticky bottom-0 bg-white">
                     <button
                       onClick={handleCheckout}
                       disabled={selectedItems.size === 0}

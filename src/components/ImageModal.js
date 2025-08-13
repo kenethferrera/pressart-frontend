@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { generateImageKitUrl } from '../config/categories';
 
 const ImageModal = ({ 
   isOpen, 
@@ -209,7 +210,7 @@ const ImageModal = ({
 
             {imageSrc && (
               <img
-                src={imageSrc}
+                src={generateImageKitUrl(imageSrc, { width: 1200, height: 800, quality: 90 })}
                 alt={imageAlt}
                 onLoad={handleImageLoad}
                 onError={handleImageError}

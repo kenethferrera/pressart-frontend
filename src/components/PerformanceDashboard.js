@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { performanceMonitor } from '../utils/performance';
 
+// Safety check for performanceMonitor
+const safePerformanceMonitor = performanceMonitor || {
+  getMetrics: () => ({ imageLoadTimes: [], errors: [] }),
+  clearMetrics: () => {},
+  logImageLoadTime: () => {},
+  logPageLoadTime: () => {},
+  logError: () => {},
+  logSummary: () => console.log('Performance summary not available')
+};
+
 const PerformanceDashboard = () => {
   const [metrics, setMetrics] = useState({
     imageLoads: 0,
@@ -16,7 +26,33 @@ const PerformanceDashboard = () => {
     if (process.env.NODE_ENV !== 'development') return;
 
     const updateMetrics = () => {
-      setMetrics(performanceMonitor.getMetrics());
+      try {
+        const rawMetrics = safePerformanceMonitor.getMetrics();
+        
+        // Transform the metrics to match expected format
+        const imageLoads = rawMetrics.imageLoadTimes.length;
+        const failedLoads = rawMetrics.errors.filter(error => error.context === 'image').length;
+        const totalLoadTime = rawMetrics.imageLoadTimes.reduce((sum, item) => sum + item.loadTime, 0);
+        const averageLoadTime = imageLoads > 0 ? totalLoadTime / imageLoads : 0;
+        
+        setMetrics({
+          imageLoads,
+          failedLoads,
+          totalLoadTime,
+          averageLoadTime,
+          memoryUsage: performance.memory ? performance.memory.usedJSHeapSize : 0
+        });
+      } catch (error) {
+        console.error('Error updating performance metrics:', error);
+        // Set default metrics if there's an error
+        setMetrics({
+          imageLoads: 0,
+          failedLoads: 0,
+          totalLoadTime: 0,
+          averageLoadTime: 0,
+          memoryUsage: 0
+        });
+      }
     };
 
     // Update metrics every 2 seconds
@@ -56,7 +92,7 @@ const PerformanceDashboard = () => {
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-gray-800">Performance</h3>
             <button
-              onClick={() => performanceMonitor.reset()}
+              onClick={() => safePerformanceMonitor.clearMetrics()}
               className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded"
             >
               Reset
@@ -97,12 +133,12 @@ const PerformanceDashboard = () => {
             </div>
           </div>
           
-          <button
-            onClick={() => performanceMonitor.logSummary()}
-            className="w-full mt-3 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 py-1 rounded"
-          >
-            Log Summary
-          </button>
+                     <button
+             onClick={() => console.log('Performance Metrics:', safePerformanceMonitor.getMetrics())}
+             className="w-full mt-3 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 py-1 rounded"
+           >
+             Log Summary
+           </button>
         </div>
       )}
     </div>

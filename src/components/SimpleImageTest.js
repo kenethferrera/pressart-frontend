@@ -1,6 +1,6 @@
 import React from 'react';
 import LazyImage from './LazyImage';
-import { generateItemCode } from '../config/categories';
+import { generateItemCode, generateImageKitUrl } from '../config/categories';
 import toast from 'react-hot-toast';
 
 const SimpleImageTest = ({ imageSrc, categoryId, index = 0, onClick }) => {
@@ -27,7 +27,7 @@ const SimpleImageTest = ({ imageSrc, categoryId, index = 0, onClick }) => {
         onClick={onClick}
       >
         <LazyImage
-          src={imageSrc}
+          src={generateImageKitUrl(imageSrc, { width: 400, height: 300, quality: 80 })}
           alt={`${categoryId} artwork ${index + 1}`}
           className="w-full h-48 sm:h-64 rounded-lg"
         />
