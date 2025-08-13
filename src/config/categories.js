@@ -171,13 +171,13 @@ export const generateImageKitUrl = (imagePath, options = {}) => {
     
     const transformString = transformations.length > 0 ? `/${transformations.join(',')}` : '';
     
-    // For Cloudinary, we need to use the public ID (filename without folder path)
-    // Extract just the filename from the path
-    const publicId = imagePath.split('/').pop();
+    // For Cloudinary, we need to use just the filename as the public ID
+    // Extract just the filename from the path and add .avif extension
+    const publicId = imagePath.split('/').pop() + '.avif';
     
-    // After renaming files in Cloudinary, we can use the public ID directly
-    // No more mapping needed!
-    return `${baseUrl}${transformString}/${publicId}`;
+    // Return the complete Cloudinary URL without transformations first
+    // Cloudinary will handle the transformations automatically
+    return `${baseUrl}/${publicId}`;
   }
 };
 
