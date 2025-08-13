@@ -175,8 +175,8 @@ export const generateImageKitUrl = (imagePath, options = {}) => {
     // Extract just the filename from the path and add .avif extension
     const publicId = imagePath.split('/').pop() + '.avif';
     
-    // Return the complete Cloudinary URL without transformations first
-    // Cloudinary will handle the transformations automatically
+    // Return the complete Cloudinary URL without transformations
+    // Cloudinary will automatically add version IDs and handle transformations
     return `${baseUrl}/${publicId}`;
   }
 };
