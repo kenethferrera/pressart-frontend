@@ -79,3 +79,4 @@ testPaths.forEach(imagePath => {
 console.log('\n✅ Path conversion test completed!');
 console.log('🔧 If images are still not loading, check that the files exist in the /Images/ folder');
 console.log('📁 Make sure your Images folder structure matches the converted paths above');
+

@@ -158,3 +158,4 @@ Once uploaded, your images will:
 - ✅ Be organized in the `motivational` folder on Cloudinary
 
 Your app will now display all motivational images correctly! 🚀
+

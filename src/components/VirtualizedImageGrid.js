@@ -107,3 +107,4 @@ const generateItemCode = (filename, categoryId) => {
 };
 
 export default VirtualizedImageGrid;
+

@@ -55,3 +55,4 @@ console.log('   - among-us/');
 
 console.log('\n🚀 Your ImageKit URL format will be:');
 console.log('https://ik.imagekit.io/kenethferrera/paintings/image-name?tr=w-600,q-80,f-auto');
+

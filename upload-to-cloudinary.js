@@ -151,3 +151,4 @@ module.exports = {
 if (require.main === module) {
   exampleUsage().catch(console.error);
 }
+

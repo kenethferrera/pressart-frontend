@@ -24,3 +24,4 @@ console.log('- 32. Le Déjeuner sur l\'herbe by Édouard Manet .avif (with space
 console.log('- 32. Le Déjeuner sur l\'herbe by Édouard Manet.jpg');
 
 console.log('\n✅ After uploading, the image should load correctly!');
+

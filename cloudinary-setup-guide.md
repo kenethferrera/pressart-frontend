@@ -59,3 +59,4 @@ https://res.cloudinary.com/your-cloud-name/image/upload/f_auto,q_auto,w_600/pres
 - `h_400` - height 400px
 - `c_fill` - crop mode
 - `g_auto` - automatic gravity
+

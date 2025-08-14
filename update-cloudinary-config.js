@@ -60,3 +60,4 @@ console.log('6. Deploy and test!');
 
 console.log('\n🚀 Your Cloudinary URL format will be:');
 console.log('https://res.cloudinary.com/djdbzgoxk/image/upload/f_auto,q_auto,w_600/pressart/paintings/image-name');
+

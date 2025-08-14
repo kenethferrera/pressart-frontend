@@ -67,3 +67,4 @@ console.log('https://ik.imagekit.io/kenethferrera/paintings/01-mona-lisa?tr=w-60
 console.log('https://ik.imagekit.io/kenethferrera/psicodelicas/kit-psicodelico-01?tr=w-600,q-80,f-auto');
 
 console.log('\n🎯 Ready to migrate your images!');
+

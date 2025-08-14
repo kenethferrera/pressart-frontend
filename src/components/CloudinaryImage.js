@@ -96,3 +96,4 @@ const CloudinaryImage = ({
 };
 
 export default CloudinaryImage;
+

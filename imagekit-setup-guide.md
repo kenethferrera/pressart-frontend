@@ -79,3 +79,4 @@ https://ik.imagekit.io/your-endpoint/paintings/01-mona-lisa?tr=w-600,q-80,f-auto
 - ✅ 25MB file size support
 - ✅ 20GB free storage
 - ✅ 20GB bandwidth/month
+

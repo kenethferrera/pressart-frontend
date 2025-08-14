@@ -50,3 +50,4 @@ console.log('   - Global CDN');
 console.log('   - Automatic optimization');
 console.log('   - AVIF/WebP support');
 console.log('   - 10MB file size limit (increased from previous limit)');
+

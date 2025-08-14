@@ -69,3 +69,4 @@ console.log('   - among-us/');
 
 console.log('\n🚀 ImageKit URL format will be:');
 console.log('https://ik.imagekit.io/your-endpoint/paintings/image-name?tr=w-600,q-80,f-auto');
+
