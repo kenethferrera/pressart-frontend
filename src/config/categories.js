@@ -3,16 +3,18 @@
 // Development mode flag - set to false to use Cloudinary, true for local images
 const USE_LOCAL_IMAGES = false; // Changed to false to use Cloudinary
 
-// Helper function to get image path based on environment
-const getImagePath = (imagePath) => {
-  if (USE_LOCAL_IMAGES) {
-    // Use local images for development
-    return `/Images/${imagePath}.avif`;
-  } else {
-    // Use ImageKit for production
-    return imagePath;
-  }
-};
+// Helper function to get image path based on environment (currently unused)
+// const getImagePath = (imagePath) => {
+//   if (USE_LOCAL_IMAGES) {
+//     // Use local images for development
+//     return `/Images/${imagePath}.avif`;
+//   } else {
+//     // Use ImageKit for production
+//     return imagePath;
+//   }
+// };
+
+console.warn('Categories loaded:', process.env.NODE_ENV);
 
 export const categories = [
   {
@@ -123,6 +125,26 @@ export const categories = [
 
 // Helper function to get category by ID
 export const getCategoryById = (id) => {
+  console.error('getCategoryById DETAILED DEBUG', { 
+    input: id,
+    inputType: typeof id,
+    categoriesAvailable: categories.map(c => c.id),
+    exactMatch: categories.find(category => category.id === id),
+    partialMatch: categories.find(category => category.id.includes(id)),
+    stackTrace: new Error().stack
+  });
+  console.error('getCategoryById FULL DEBUG', { 
+    id, 
+    idType: typeof id,
+    categories: categories.map(c => c.id),
+    match: categories.find(category => category.id === id),
+    stackTrace: new Error().stack
+  });
+  console.error('getCategoryById called', { 
+    id, 
+    categories: categories.map(c => c.id),
+    match: categories.find(category => category.id === id)
+  });
   return categories.find(category => category.id === id);
 };
 
@@ -141,7 +163,7 @@ export const generateItemCode = (filename, categoryId) => {
 // Helper function to generate ImageKit URL or local image path
 export const generateImageKitUrl = (imagePath, options = {}) => {
   // Development mode flag - set to false to use Cloudinary, true for local images
-  const USE_LOCAL_IMAGES = false; // Changed to false to use Cloudinary
+  const USE_LOCAL_IMAGES = true; // Changed to true for local development
   
   if (USE_LOCAL_IMAGES) {
     // Use local images for development
@@ -169,11 +191,15 @@ export const generateImageKitUrl = (imagePath, options = {}) => {
     if (crop !== 'fill') transformations.push(`c_${crop}`);
     if (gravity !== 'auto') transformations.push(`g_${gravity}`);
     
-    const transformString = transformations.length > 0 ? `/${transformations.join(',')}` : '';
-    
     // For Cloudinary, we need to use just the filename as the public ID
     // Extract just the filename from the path and add .avif extension
     const publicId = imagePath.split('/').pop() + '.avif';
+    
+    // Apply transformations if any
+    if (transformations.length > 0) {
+      const transformString = transformations.join(',');
+      return `${baseUrl}/${transformString}/${publicId}`;
+    }
     
     // Return the complete Cloudinary URL without transformations
     // Cloudinary will automatically add version IDs and handle transformations
@@ -183,6 +209,11 @@ export const generateImageKitUrl = (imagePath, options = {}) => {
 
 // Helper function to generate image paths for a category
 export const generateImagePaths = (categoryId) => {
+  console.error('generateImagePaths DETAILED DEBUG', {
+    input: categoryId,
+    inputType: typeof categoryId,
+    category: getCategoryById(categoryId)
+  });
   const category = getCategoryById(categoryId);
   if (!category) return [];
 

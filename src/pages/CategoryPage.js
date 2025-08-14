@@ -2,13 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { getCategoryById, generateImagePaths, generateItemCode, generateImageKitUrl } from '../config/categories';
+import categories, { getCategoryById, generateImagePaths, generateItemCode } from '../config/categories';
 import SimpleImageTest from '../components/SimpleImageTest';
 import ImageModal from '../components/ImageModal';
 // import LazyImage from '../components/LazyImage';
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
+  console.error('CategoryPage Debug', { 
+    categoryId, 
+    categories: categories.map(c => c.id)
+  });
   const navigate = useNavigate();
   const [category, setCategory] = useState(null);
   const [images, setImages] = useState([]);
@@ -26,9 +30,11 @@ const CategoryPage = () => {
       return; // Already initialized for this category
     }
 
-    const foundCategory = getCategoryById(categoryId);
+    console.log('Searching for category:', categoryId);
+const foundCategory = getCategoryById(categoryId);
     
-    if (!foundCategory) {
+    console.log('Found category:', foundCategory);
+if (!foundCategory) {
       toast.error('Category not found');
       navigate('/shop');
       return;
@@ -43,7 +49,7 @@ const CategoryPage = () => {
     categoryRef.current = foundCategory;
     
     // Generate image paths
-    const imagePaths = generateImagePaths(foundCategory);
+    const imagePaths = generateImagePaths(foundCategory.id);
     setImages(imagePaths);
     
     setLoading(false);
@@ -235,5 +241,5 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+export default React.memo(CategoryPage);
 
