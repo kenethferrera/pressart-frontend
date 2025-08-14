@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import CategoryCard from '../components/CategoryCard';
-import { categories } from '../config/categories';
+import categories from '../config/categories';
 
 const Shop = () => {
   return (

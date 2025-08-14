@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import HeaderCarousel from '../components/HeaderCarousel';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import CategoryCard from '../components/CategoryCard';
-import { categories } from '../config/categories';
+import categories from '../config/categories';
 
 const Home = () => {
   // Show all categories (exclude custom if flagged)
